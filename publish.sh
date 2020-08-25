@@ -33,11 +33,11 @@ push() {
         aws --region us-west-2 ecr create-repository --repository-name ${PV_NAME} || true
 
 	# Push "latest" (for convenience)
-        docker push "$PV_DOCKER_REGISTRY/${PV_NAME}:latest"
+        docker push "$PV_DOCKER_REGISTRY:${PV_NAME}"
         [ $? -ne 0 ] && return 1
 
 	# Push tagged image
-        docker push "$PV_DOCKER_REGISTRY/${PV_NAME}:${PV_GIT_COMMIT}"
+        docker push "$PV_DOCKER_REGISTRY:${PV_NAME}-${PV_GIT_COMMIT}"
         [ $? -ne 0 ] && return 1
 
         return 0
