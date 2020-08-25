@@ -1,10 +1,10 @@
 #!/bin/bash
 set -e
 
-declare -r PV_DOCKER_REGISTRY="507760724064.dkr.ecr.us-west-2.amazonaws.com"
+declare -r PV_DOCKER_REGISTRY="polyverse/vulnerable-nginx-1.4.0"
 declare -r PV_GIT_COMMIT="$(git rev-parse --verify HEAD)"
-declare -r PV_BASE_NAME="base-nginx-1.4.0"
-declare -r PV_POLY_NAME="poly-nginx-1.4.0"
+declare -r PV_BASE_NAME="base"
+declare -r PV_POLY_NAME="poly"
 
 
 main() {
