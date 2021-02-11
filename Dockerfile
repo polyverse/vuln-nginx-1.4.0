@@ -1,20 +1,21 @@
-FROM	ubuntu:xenial
+FROM	ubuntu:bionic
+#FROM	ubuntu:xenial
 ARG	PV_CFLAGS
 ARG PV_LFLAGS
 
 RUN	apt-get -y update
-RUN	apt-get -y install libpcre3-dev libgeoip-dev libssl-dev make
-RUN	apt-get -y install gcc-4.8
-RUN	update-alternatives --install /usr/bin/cc cc /usr/bin/gcc-4.8 10
+RUN apt-get -y install libpcre3-dev libgeoip-dev libssl-dev make zlib1g-dev gcc
+#RUN	apt-get -y install gcc-4.8
+#RUN	update-alternatives --install /usr/bin/cc cc /usr/bin/gcc-4.8 10
  
 # nginx
 ADD	vendor/nginx/nginx-1.4.0.tar.gz /
 WORKDIR	/nginx-1.4.0
 RUN	./configure \
-	--with-cc-opt="${PV_CFLAGS}" \
-	--with-ld-opt="${PV_LFLAGS}" \
+	--with-cc-opt="-Wno-error" \
+	--with-ld-opt="-Wl,--emit-relocs" \
 	--with-http_geoip_module \
-	--with-http_ssl_module \
+#	--with-http_ssl_module \
 	--with-http_gzip_static_module \
 	--with-http_stub_status_module \
 	--with-http_spdy_module \
@@ -35,4 +36,6 @@ RUN sed -i -e 's/#user  nobody/user  www-data/g' ./conf/nginx.conf
 EXPOSE	80 443
 
 # Entrypoint
-ENTRYPOINT nginx -g 'daemon off;'
+#ENTRYPOINT nginx -g 'daemon off;'
+#ENTRYPOINT nginx -V
+ENTRYPOINT bash
